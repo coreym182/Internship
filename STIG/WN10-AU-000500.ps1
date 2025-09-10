@@ -5,7 +5,7 @@
 .NOTES
     Author          : Corey Mitchell
     LinkedIn       : https://www.linkedin.com/in/corey-mitchell182/
-    GitHub          : github.com/joshmadakor1
+    GitHub          : https://github.com/coreym182/Internship/new/main/STIG
     Date Created    : 2025-09-09
     Last Modified   : 2025-09-09
     Version         : 1.0
