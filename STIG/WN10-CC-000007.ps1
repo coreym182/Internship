@@ -2,7 +2,7 @@ WN10-CC-000007
 
 <#
 .SYNOPSIS
-    This PowerShell script ensures that the maximum size of the Windows Application event log is at least 32768 KB (32 MB).
+    This PowerShell script ensures that the Windows 10 must cover or disable the built-in or attached camera when not in use.
 
 .NOTES
     Author          : Corey Mitchell
