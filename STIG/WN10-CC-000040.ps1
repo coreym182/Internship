@@ -7,7 +7,7 @@ WN10-CC-000040
 
 <#
 .SYNOPSIS
-    This PowerShell script ensures that the maximum size of the Windows Application event log is at least 32768 KB (32 MB).
+    This PowerShell script ensures that Insecure logons to an SMB server must be disabled.
 
 .NOTES
     Author          : Corey Mitchell
