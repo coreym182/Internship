@@ -1,3 +1,5 @@
+IPv6 source routing must be configured to highest protection.
+
 .NOTES
     Author          : Corey Mitchell
     LinkedIn        : https://www.linkedin.com/in/corey-mitchell182/
