@@ -1,1 +1,78 @@
+Scenario 1: Devices Exposed to the Internet (UPDATE)
 
+windows-target-1 has been internet-facing for several days
+DeviceInfo
+| where DeviceName == "windows-target-1"
+| where IsInternetFacing == true
+| order by Timestamp desc 
+
+
+Last internet-facing time: Sep 16, 2025 9:50:45 AM
+
+—
+
+Several bad actors have been discovered to log into our machine
+DeviceLogonEvents
+| where DeviceName == "windows-target-1"
+| where LogonType has_any("Network", "Interactive", "RemoteInteractive", "Unlock")
+| where ActionType == "LogonFailed"
+| where isnotempty(RemoteIP)
+| summarize Attempts = count() by ActionType, RemoteIP, DeviceName
+| order by Attempts
+
+
+—
+
+The top five IP addresses with the most failed login attempts have not been able to break into the VM successfully.
+
+let RemoteIPsInQuestion = dynamic(["147.93.150.115","178.22.24.78", "176.46.158.12", "57.129.140.32", "194.180.49.61"]);
+DeviceLogonEvents
+| where LogonType has_any("Network", "Interactive", "RemoteInteractive", "Unlock")
+| where ActionType == "LogonSuccess"
+| where RemoteIP has_any(RemoteIPsInQuestion)
+
+No results from this event
+
+—
+
+The only successful remote/network logon in the last 30 days was for the “labuser” account (0 total)
+
+DeviceLogonEvents
+| where DeviceName == "windows-target-1"
+| where LogonType == "Network"
+| where ActionType == "LogonSuccess"
+| distinct AccountName == "labuser"
+| summarize count()
+
+There was one failed logon for the labuser account, indicating that a brute force attempt for this account could have taken place and was not successful.
+
+DeviceLogonEvents
+| where DeviceName == "windows-target-1"
+| where LogonType == "Network"
+| where ActionType == "LogonFailed"
+| distinct AccountName == "labuser"
+| summarize count()
+
+
+—
+
+We checked all of the successful login IP addresses for the “labuser” account to see if any of them were unusual or from an unexpected location. No results were found. 
+
+—
+
+Although the device was internet-facing, there was no indication of any brute force used to access this user’s account. 
+
+—
+
+Relevant MITRE ATT&CK TTPs:
+
+Scenario 1: Devices Exposed to the Internet (UPDATE)
+
+- **Exposed internet-facing asset** → [T1595.002: Active Scanning - Vulnerability Scanning]  
+- **Failed remote login attempts from multiple IPs** → [T1110: Brute Force]  
+- **Monitoring for successful logins after failed attempts** → [T1078: Valid Accounts]  
+- **Assessment of unusual login locations** → [T1078.003: Valid Accounts - Domain Accounts]  
+
+Notes:  
+- Attackers attempted brute force but were unsuccessful.  
+- No evidence of valid account compromise or persistence 
